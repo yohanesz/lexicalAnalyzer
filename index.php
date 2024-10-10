@@ -2,10 +2,16 @@
 
 include('analisador.php');
 
+$listatokens = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $analisador = new Analisador();
+    $listatokens = $analisador->execute();
+} else {
+
+}
 
 ?>
-
-
 <!DOCTYPE html>
 <html data-bs-theme="dark">
 <head>
@@ -15,8 +21,12 @@ include('analisador.php');
 
     <title>Analisador Léxico</title>
     <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
         html, body {
             height: 100%;
+            font-family: 'Manrope';
         }
         .container {
             height: 100%;
@@ -26,33 +36,31 @@ include('analisador.php');
 <body class="bg-light">
     
     <header class="text-center bg-dark d-flex flex-row justify-content-between">
-        <h1 class="text-start fs-3 p-2 mx-4 text-light">LEXICAL ANALYZER</h1>
+        <h1 class="text-start fs-3 p-2 mb-0 mx-4 text-light"><strong>LEXICAL ANALYZER</strong></h1>
     </header>
 
 
     <div class="d-flex align-items-center" style="height: 90%;">
         <div class="container d-flex flex-row justify-content-around align-items-center"> 
-            <div class="w-25 m-0">
-                <form method="POST" class="mb-3">
-                    
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control py-2" placeholder="Digite a string" name="inputString">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-dark py-2" type="submit" style="border-top-left-radius: 0rem; border-bottom-left-radius: 0rem;">Analisar</button>
-                        </div>
+            <div class="w-50 m-0">
+                <form method="POST" class="mb-3 d-flex w-80 justify-content-center">
+                <textarea class="form-control w-50" id="validationCustom01" placeholder=">" name="inputString" rows="1"></textarea>
+                    <div class="input-group-append align-items-center d-flex" style="padding-left: 25px;">
+                        <button class="btn" type="submit" style="background-color:#212529; color: #f8f9fa; ">analisar</button>
                     </div>
-                    </form>
+            </form>
+            
 
             </div>
             <div class="w-50 align-items-center d-flex justify-content-center flex-column text-dark">
                 <div class="w-100">
                     
                 <div class="bg-dark rounded-top px-4 py-2 w-100">
-                    <h4 class="text-light mb-0"> <?php echo "{$_POST['inputString']}" ?></h4>
+                    <h4 class="text-light mb-0"><strong> <?php echo "{$_POST['inputString']}" ?></strong></h4>
                 </div>
 
                 </div>
-
+                
                 <table class="table table-bordered w-100">
                     <thead>
                         <tr>
@@ -63,14 +71,14 @@ include('analisador.php');
                         
                         
                         <?php 
-            echo "<tr>"; 
-            $count = 0; 
-            
-            foreach ($GLOBALS['listatokens'] as $item) {
+                    echo "<tr>"; 
+                    $count = 0; 
+
+            foreach ($listatokens as $item) {
                 
                 echo "<td class='text-dark text-center'>
                 <span style='color: gray;'>&lt;</span>
-                <strong>{$item->getToken()}, {$item->getLexema()}</strong>
+                <strong style='font-size:15px;'>{$item->getToken()}, {$item->getLexema()}</strong>
                 <span style='color: gray;'>&gt;</span>
                 </td>";
         
@@ -79,7 +87,7 @@ include('analisador.php');
                 
                 if ($count % 4 == 0) {
                     echo "</tr>"; 
-                    if ($count < count($GLOBALS['listatokens'])) {
+                    if ($count < count($listatokens)) {
                         echo "<tr>"; 
                     }
                 }
