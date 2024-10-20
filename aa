@@ -1,0 +1,20 @@
+
+    // <PROGRAMA> ::= PROGRAMA ID ABRE_CHAVE <BLOCO> FECHA_CHAVE
+    // <BLOCO> ::= ABRE_CHAVE <LISTA_COMANDOS> FECHA_CHAVE
+    // <COMANDO> ::= <FACA> | <IMPRIMA> | <LEIA> | <RETORNO> | <DECLARACAO_VAR> | <SE> | <ENTAO> | <SENAO> | <ENQUANTO> | <PARA>
+    // <FUNCAO> ::= <DECLARACAO> | <ATRIBUICAO> | <LEITURA> | <IMPRESSAO> | <IF> | <FOR> | <WHILE> 
+    // <DECLARACAO> ::= VAR ID <TIPO>
+    // <TIPO> ::= INT | FLOAT | CHAR | ARRAY
+    // <ATRIBUICAO> ::= ID igual <EXP>
+    // <EXP> ::= <termo> <operador> <termo> | <termo> -problema amb.
+    // <termo> ::= ID | const
+    // <operador> ::= + | - | * | /
+    // <LEITURA> ::= leia abre_par ID fecha_par
+    // <IMPRESSAO> ::= imprima abre_par <EXP> fecha_par
+    // <IF> ::= SE ABRE_PARENT <EXP_LOGICA> FECHA_PARENT ABRE_CHAVE <BLOCO> FECHA_CHAVE <SENAO>
+    // <SENAO> ::= SENAO  ABRE_CHAVE  <BLOCO> FECHA_CHAVE | ε
+    // <EXP_LOGICA> ::= <termo> <operador_logico> <termo>
+    // <operador_logico> ::= ">" | "<" | "==" | "!=" | "&&" | "||"
+    // <FOR> ::= "PARA" "(" <ATRIBUICAO> <EXP_LOGICA> ";" <INCREMENTO> ")"  ABRE_CHAVE  <BLOCO> FECHA_CHAVE
+    // <INCREMENTO> ::= ID IGUAL ID <operador_aritmetico> CONST
+    // <WHILE> ::= "ENQUANTO" "(" <EXP_LOGICA> ")"  ABRE_CHAVE  <BLOCO> FECHA_CHAVE

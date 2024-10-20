@@ -27,11 +27,10 @@ class Token {
     public function getLexema() {
         return $this->lexema;
     }
-
   
     public function __toString()
     {
-        return '<' . $this->token . ', ' . $this->lexema . '>';
+        return $this->token;
     }
     
 }
