@@ -2,37 +2,30 @@
 require_once('analisador_lexico.php');
 
 class analisador_sintatico {
-
-    private $lexico;
+    private $tokens;
     private $currentTokenIndex = 0;
     private $cont = 0;
 
-    public function __construct($lexico) {
-        $this->lexico = $lexico;
+    public function __construct($tokens) {
+        $this->tokens = $tokens;
     }
 
     public function vazio(){
         return true;
     }
 
-    // public function termo($expectedToken) {
-    //     if ($this->tokens[$this->currentTokenIndex] == $expectedToken) {
-    //         $this->currentTokenIndex++; 
-    //         return true;
-    //     } else {
-    //         $this->erro("Esperado '$expectedToken'");
-    //         return false;
-    //     }
-    // }
-
-    public function termo($tk){
-        //print('term ');
-        //var_dump($tk == $this->lexico->tokens[$this->cont++]->tok);
-        return $tk == $this->lexico->tokens[$this->cont++]->tok;
+    public function termo($expectedToken) {
+        if ($this->tokens[$this->currentTokenIndex] == $expectedToken) {
+            $this->currentTokenIndex++; 
+            return true;
+        } else {
+            $this->erro("Esperado '$expectedToken'");
+            return false;
+        }
     }
 
     public function erro($mensagem) {
-        $tokenAtual = $this->lexico[$this->currentTokenIndex] ?? 'EOF'; 
+        $tokenAtual = $this->tokens[$this->currentTokenIndex] ?? 'EOF'; 
         echo "Erro: $mensagem. Token atual: '$tokenAtual'. Posição: $this->currentTokenIndex\n";
     }
 
@@ -40,18 +33,14 @@ class analisador_sintatico {
         return $this->PROGRAMA();
     }
 
-    //<PROGRAMA> ::= PROGRAMA ID ABRE_PARENT <LISTA_VAR> FECHA_PARENT ABRE_CHAVE
+    //<PROGRAMA> ::= PROGRAMA ID ABRE_CHAVE <LISTA_COMANDOS> FECHA_CHAVE
     public function PROGRAMA() {
         return $this->termo('PROGRAMA') &&
                $this->termo('ID') &&
-               $this->termo('ABRE_PARENT') &&
-               $this->LISTA_VAR() &&
-               $this->termo('FECHA_PARENT') && 
-               $this->termo('ABRE_CHAVE');
-            //    $this->BLOCO();
+               $this->termo('ABRE_CHAVE') &&
+               $this->LISTA_COMANDOS() &&
+               $this->termo('FECHA_CHAVE');
     }
-
-    
 
     public function BLOCO() {
         return $this->termo('ABRE_CHAVE') &&
@@ -60,14 +49,12 @@ class analisador_sintatico {
     }
 
     public function LISTA_COMANDOS() {
-        if ($this->COMANDO()) {
-            return $this->LISTA_COMANDOS();
-        }
+        while ($this->COMANDO()) {}
         return true;
     }
 
     public function COMANDO() {
-        return $this->DECLARACAO_VAR() || 
+        return $this->DECLARACAO_VAR() ||
                $this->FACA() ||
                $this->IMPRIMA() ||
                $this->LEIA() ||
